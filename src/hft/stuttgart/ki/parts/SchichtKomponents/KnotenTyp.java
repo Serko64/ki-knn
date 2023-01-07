@@ -20,4 +20,11 @@ public double getOxVal() {
 public double getIxVal() {
 	return ixVal;
 }
+public void setOxVal(double oxVal) {
+	this.oxVal = oxVal;
+}
+public void setIxVal(double ixVal) {
+	this.ixVal = ixVal;
+}
+
 }
