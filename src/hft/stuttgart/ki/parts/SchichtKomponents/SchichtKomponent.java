@@ -1,21 +1,35 @@
 package hft.stuttgart.ki.parts.SchichtKomponents;
 
+import java.util.UUID;
+
 import hft.stuttgart.ki.parts.top.SchichtBuilder;
 
 public class SchichtKomponent implements SchichtBuilder{
-	private long id;
+	private UUID id;
 	private SchichtTyp type;
 	
-	@Override
-	public long generateComponentId() {
-		// TODO Auto-generated method stub
-		return 0;
+	public SchichtKomponent(SchichtTyp type) {
+		createType(type);
 	}
 
 	@Override
-	public <T> boolean createType() {
-		// TODO Auto-generated method stub
-		return false;
+	public UUID generateComponentId() {
+		return UUID.randomUUID();
 	}
 
+	public boolean createType(SchichtTyp t) {
+		if(t.getClass().isInstance(KnotenTyp.class) || t.getClass().isInstance(KanteTyp.class)) {
+			type = t;
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public UUID getId() {
+		return id;
+	}
+
+	public SchichtTyp getType() {
+		return type;
+	}
 }

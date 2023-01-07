@@ -1,6 +1,7 @@
 package hft.stuttgart.ki.parts.top;
 
-public interface SchichtBuilder {
-public long generateComponentId();
-public <T> boolean createType();
+import java.util.UUID;
+
+public interface SchichtBuilder{
+public UUID generateComponentId();
 }
