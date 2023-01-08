@@ -1,9 +1,9 @@
 package hft.stuttgart.ki.parts.Schicht;
 import java.util.ArrayList;
-import hft.stuttgart.ki.parts.SchichtKomponents.Knoten;
-import hft.stuttgart.ki.parts.SchichtKomponents.KnotenTyp;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import hft.stuttgart.ki.parts.SchichtKomponents.SchichtKomponent;
-import hft.stuttgart.ki.parts.SchichtKomponents.SchichtTyp;
 
 public class BereichsTyp {
 private ArrayList<SchichtKomponent> knoten;
@@ -16,5 +16,7 @@ public BereichsTyp() {
 public ArrayList<SchichtKomponent> getKnoten() {
 	return knoten;
 }
-
+public ArrayList<SchichtKomponent> findAllKnoten(UUID id) {
+	return knoten.stream().filter(m -> m.getId().equals(id)).collect(Collectors.toCollection(ArrayList::new));
+}
 }

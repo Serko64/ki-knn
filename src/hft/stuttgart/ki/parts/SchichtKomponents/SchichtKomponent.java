@@ -18,7 +18,7 @@ public class SchichtKomponent implements SchichtBuilder{
 	}
 
 	public boolean createType(SchichtTyp t) {
-		if(t.getClass().isInstance(KnotenTyp.class) || t.getClass().isInstance(KanteTyp.class)) {
+		if(t.getClass().equals(KnotenTyp.class) || t.getClass().equals(KanteTyp.class)) {
 			type = t;
 			return true;
 		}else {
@@ -32,4 +32,9 @@ public class SchichtKomponent implements SchichtBuilder{
 	public SchichtTyp getType() {
 		return type;
 	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
+	
 }

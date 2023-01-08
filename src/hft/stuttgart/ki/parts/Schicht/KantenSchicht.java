@@ -1,6 +1,7 @@
 package hft.stuttgart.ki.parts.Schicht;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import hft.stuttgart.ki.parts.SchichtKomponents.KanteTyp;
 import hft.stuttgart.ki.parts.SchichtKomponents.SchichtKomponent;
@@ -36,5 +37,10 @@ public UUID getSchichtIDB() {
 public ArrayList<KanteTyp> getKanten() {
 	return kanten;
 }
-
+public ArrayList<KanteTyp> findConnectedBackKnotenId(UUID id) {
+	return kanten.stream().filter(n -> n.getKnotenIDB().equals(id)).collect(Collectors.toCollection(ArrayList::new));
+}
+public ArrayList<KanteTyp> findConnectedFrontKnotenId(UUID id) {
+	return kanten.stream().filter(n -> n.getKnotenIDF().equals(id)).collect(Collectors.toCollection(ArrayList::new));
+}
 }
