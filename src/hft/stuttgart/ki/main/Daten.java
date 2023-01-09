@@ -6,12 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-record werte(Double x1, Double x2, Double y) {
+record Werte(Double x1, Double x2, Double y) {
 };
 
 public class Daten {
 
-	public ArrayList<werte> datenliste;
+	public ArrayList<Werte> datenliste;
 
 	public Daten() throws IOException {
 		datenliste = new ArrayList<>();
@@ -24,7 +24,7 @@ public class Daten {
 			BufferedReader reader = new BufferedReader(new FileReader("Wetter.txt"));
 			String zeile;
 			while ((zeile = reader.readLine()) != null) {
-				datenliste.add(new werte(Double.valueOf(zeile.split("\t")[0]), Double.valueOf(zeile.split("\t")[1]),
+				datenliste.add(new Werte(Double.valueOf(zeile.split("\t")[0]), Double.valueOf(zeile.split("\t")[1]),
 						Double.valueOf(zeile.split("\t")[2])));
 			}
 		} catch (FileNotFoundException e) {
@@ -32,7 +32,7 @@ public class Daten {
 		}
 	}
 
-	public ArrayList<werte> getDatenliste() {
+	public ArrayList<Werte> getDatenliste() {
 		return datenliste;
 	}
 }
