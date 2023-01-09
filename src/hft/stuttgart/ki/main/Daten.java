@@ -35,5 +35,4 @@ public class Daten {
 	public ArrayList<werte> getDatenliste() {
 		return datenliste;
 	}
-
 }
