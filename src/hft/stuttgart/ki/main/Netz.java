@@ -19,27 +19,55 @@ private ArrayList<Object> netz;
 private double alpha;
 
 public void createKnoten(int eingA, int[] hiddA , int ausgA) throws WrongUsedTypeclassException {
+	netz = new ArrayList<>();
 		netz.add(new Schicht(new Eingabe(), eingA));
 		for (int i : hiddA) {
-			netz.add(new Schicht(new Hidden(), hiddA[i]));
+			netz.add(new Schicht(new Hidden(), i));
 		}
 		netz.add(new Schicht(new Ausgabe(), ausgA));
 	}
 public void addKanten() {
-		for(int i = 1; i<netz.size()-1;i = i+2) {
-			netz.add(i,new KantenSchicht(((Schicht) netz.get(i)).getId(), ((Schicht) netz.get(i+1)).getId(), ((Schicht) netz.get(i)).getType().getKnoten(), ((Schicht) netz.get(i)).getType().getKnoten() ));
+	ArrayList<Object> mitKantenNetz = new ArrayList<>();
+	System.out.println(netz.size());
+		for(int i = 0; i<netz.size()-1;i++) {
+			System.out.println("runned");
+			mitKantenNetz.add(new KantenSchicht(((Schicht) netz.get(i)).getId(), ((Schicht) netz.get(i+1)).getId(), ((Schicht) netz.get(i)).getType().getKnoten(), ((Schicht) netz.get(i+1)).getType().getKnoten() ));
 		}
+		System.out.println("d" + mitKantenNetz.size());
+	ArrayList<Object> temp = new ArrayList<>();
+	temp.addAll(netz);
+	netz.clear();
+	int counter = 0;
+	int counter2 = 0;
+		for(int i = 0; i<temp.size()+mitKantenNetz.size();i++) {
+			if(i%2 == 0) {
+				netz.add(temp.get(counter));
+				counter++;
+			} else {
+				netz.add(mitKantenNetz.get(counter2));
+				counter2++;
+			}
+		}
+		System.out.println("tets " + netz.size());
 	}
 public void doForwardCalculation() {
 		for(int i = 2;i<netz.size();i = i+2) {
+			System.out.println("val "+ (i-1));
 			for (SchichtKomponent s: ((Schicht)netz.get(i)).getType().getKnoten()) {
 				if(((KnotenTyp)s.getType()).isBias()) {
 					continue;
 				} else {
 				ArrayList<KanteTyp> zBK = ((KantenSchicht)netz.get(i-1)).findConnectedBackKnotenId(s.getId());
 				int[] ui = new int[]{i};
-				((KnotenTyp) s.getType()).setIxVal(zBK.stream().mapToDouble(n -> n.getGewicht() * ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal()).sum());
+				
+				((KnotenTyp) s.getType()).setIxVal(zBK.stream().mapToDouble(n -> {
+					System.out.println(n.getGewicht() * ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal() + " | " + n.getGewicht() + " - "+ ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal());
+					return n.getGewicht() * ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal();}).sum());
 				((KnotenTyp) s.getType()).setOxVal(new EFC().sig(((KnotenTyp) s.getType()).getIxVal()));
+				zBK.stream().forEach(n -> {
+					System.out.println(n.getGewicht());
+				});
+				System.out.println(((KnotenTyp) s.getType()).getIxVal() + " - " + ((KnotenTyp) s.getType()).getOxVal());
 				}
 			}
 		}
@@ -92,4 +120,11 @@ public void doGewichteAktualisieren() {
 			}
 		}
 	}
+
+public ArrayList<Object> getNetz() {
+	return netz;
+}
+public void setAlpha(double alpha) {
+	this.alpha = alpha;
+}
 }

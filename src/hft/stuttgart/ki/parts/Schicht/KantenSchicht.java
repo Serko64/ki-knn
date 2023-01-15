@@ -4,7 +4,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import hft.stuttgart.ki.parts.SchichtKomponents.KanteTyp;
+import hft.stuttgart.ki.parts.SchichtKomponents.KnotenTyp;
 import hft.stuttgart.ki.parts.SchichtKomponents.SchichtKomponent;
+import hft.stuttgart.ki.parts.SchichtKomponents.SchichtTyp;
 
 public class KantenSchicht {
 private UUID schichtIDF;
@@ -13,6 +15,7 @@ private ArrayList<KanteTyp> kanten;
 public KantenSchicht(UUID schichtIDF, UUID schichtIDB, ArrayList<SchichtKomponent> frontKnoten, ArrayList<SchichtKomponent> backKnoten) {
 	this.schichtIDB = schichtIDB;
 	this.schichtIDF = schichtIDF;
+	this.kanten = new ArrayList<>();
 	generateKanten(frontKnoten, backKnoten);
 }
 public boolean generateRandomGewichte() {
@@ -21,12 +24,19 @@ public boolean generateRandomGewichte() {
 	}
 	return true;
 }
+//front von links
 public void generateKanten(ArrayList<SchichtKomponent> fK, ArrayList<SchichtKomponent> bK) {
-	int counter = 0;
+	System.out.println("_______________");
 	for (SchichtKomponent kT : fK) {
-		kanten.add(new KanteTyp(kT.getId() , bK.get(counter).getId()));
-		counter++;
+		System.out.println("added");
+		for(int i = 0;i<bK.size();i++) {
+			if(!((KnotenTyp)bK.get(i).getType()).isBias()) {
+				System.out.println("newK");
+				kanten.add(new KanteTyp(kT.getId() , bK.get(i).getId()));
+			}
+		}
 	}
+	generateRandomGewichte();
 }
 public UUID getSchichtIDF() {
 	return schichtIDF;
