@@ -32,6 +32,7 @@ public boolean isBias() {
 }
 public void setBias(boolean bias) {
 	this.bias = bias;
+	setOxVal(1);
 }
 
 }

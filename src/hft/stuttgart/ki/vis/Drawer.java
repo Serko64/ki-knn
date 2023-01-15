@@ -1,6 +1,7 @@
 package hft.stuttgart.ki.vis;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -18,30 +19,30 @@ public class Drawer extends JComponent {
 	private int oneKnoX = 80;
 	private int oneKnoY = 40;
 	private int staKnoX = 80;
-	private int staKnoY = 80;
+	private int staKnoY = 120;
 	private final int KnoW = 40;
 	private final int KnoH = 40;
 	private final int LineLXAdd = 40;
 	private final int LineLYAdd = 20;
-	private final int LineRXAdd = 0;
 	private final int LineRYAdd = 20;
 	private ArrayList<Object> netz;
+	private Netz n;
 	private static final long serialVersionUID = 2471902300638714690L;
 
-	public Drawer(ArrayList<Object> netz) {
+	public Drawer(Netz netz) {
 		super();
-		this.netz = netz;
+		this.netz = netz.getNetz();
+		this.n = netz;
 	}
-	public void paint(Graphics g)
-    {
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.clearRect(0, 0, 1000, 1000);
 		drawNetz(this.netz, g);
-        // draw and display the line
-//        g.drawLine(60, 30, 100, 30);
-//        g.setColor(Color.BLUE);
-//        g.fillOval(40, 20, 20, 20);
-//        g.fillOval(100, 80, 20, 20);
-    }
+	}
 	public void drawNetz(ArrayList<Object> netz, Graphics g) {
+		Font font = new Font("Arial",Font.BOLD,20);
+		g.setFont(font);
 		System.out.println("Netz " + netz.size());
 		int kk = 0;
 		for(int i=0;i<netz.size();i++) {
@@ -55,6 +56,10 @@ public class Drawer extends JComponent {
 						g.setColor(Color.BLACK);
 					}
 					g.fillOval(oneKnoX+staKnoX*i, oneKnoY+staKnoY*counter, KnoH, KnoW);
+					g.setColor(Color.BLUE);
+					g.drawString(String.valueOf(((KnotenTyp)kN.getType()).getIxVal()).substring(0, 3), oneKnoX+staKnoX*i, oneKnoY+staKnoY*counter);
+					g.drawString(String.valueOf(((KnotenTyp)kN.getType()).getOxVal()).substring(0, 3), oneKnoX+staKnoX*i, oneKnoY+50+staKnoY*counter);
+					g.setColor(Color.BLACK);
 					counter++;
 				}
 			} else {
@@ -64,9 +69,6 @@ public class Drawer extends JComponent {
 					int multipR = 0;
 					for (SchichtKomponent kN:((Schicht)netz.get(i-1)).getType().getKnoten()) {
 						if(vN.getKnotenIDF() == kN.getId()) {
-							g.setColor(Color.GREEN);
-							g.drawString(String.valueOf(i), oneKnoX+staKnoX*(i-1), oneKnoY+staKnoY*multipL);
-							g.setColor(Color.BLACK);
 							for (SchichtKomponent kN2:((Schicht)netz.get(i+1)).getType().getKnoten()) {
 								if(vN.getKnotenIDB() == kN2.getId()) {
 									int val = 0;

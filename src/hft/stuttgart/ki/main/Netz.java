@@ -73,6 +73,7 @@ public void doForwardCalculation() {
 		}
 	}
 public void doBackwardCalculation() {
+	System.out.println(":C");
 		double deltaJ = 0;
 		for(int i = netz.size()-1;i>2;i = i-2) {
 			if(i == netz.size()-1 && netz.get(i).getClass().equals(Ausgabe.class)) {
