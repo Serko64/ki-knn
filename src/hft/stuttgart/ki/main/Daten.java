@@ -11,14 +11,17 @@ record Werte(Double x1, Double x2, Double y) {
 
 public class Daten {
 
-	public ArrayList<Werte> datenliste;
-
+	private ArrayList<Werte> datenliste;
+	private ArrayList<Werte> tempDatenliste;
+ 
 	public Daten() throws IOException {
 		datenliste = new ArrayList<>();
 		readFile();
+		tempDatenliste = new ArrayList<>();
+		tempDatenliste.addAll(datenliste);
 	}
 
-	public void readFile() throws IOException {
+	private void readFile() throws IOException {
 
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader("Wetter.txt"));
@@ -33,6 +36,9 @@ public class Daten {
 	}
 
 	public ArrayList<Werte> getDatenliste() {
-		return datenliste;
+		return tempDatenliste;
+	}
+	public void resetTemp() {
+		tempDatenliste.addAll(datenliste);
 	}
 }

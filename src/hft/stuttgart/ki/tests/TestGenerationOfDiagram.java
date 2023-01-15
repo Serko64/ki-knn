@@ -3,6 +3,7 @@ package hft.stuttgart.ki.tests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.awt.EventQueue;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -28,7 +29,7 @@ class TestGenerationOfDiagram {
 	private int[] hZ;
 	private int aZ;
 	@BeforeEach
-	void generateKnoten() {
+	void generateKnoten() throws IOException {
 		Netz netz = new Netz();
 		this.eZ = 3;
 		this.hZ = new int[] {3};

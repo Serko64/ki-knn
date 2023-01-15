@@ -20,18 +20,20 @@ public KantenSchicht(UUID schichtIDF, UUID schichtIDB, ArrayList<SchichtKomponen
 }
 public boolean generateRandomGewichte() {
 	for (KanteTyp kanteTyp : kanten) {
-		kanteTyp.setGewicht(Math.random());
+		double rand = Math.random();
+		if(rand > 0.5) {
+			kanteTyp.setGewicht(-Math.random());
+		} else {
+			kanteTyp.setGewicht(Math.random());
+		}
 	}
 	return true;
 }
 //front von links
 public void generateKanten(ArrayList<SchichtKomponent> fK, ArrayList<SchichtKomponent> bK) {
-	System.out.println("_______________");
 	for (SchichtKomponent kT : fK) {
-		System.out.println("added");
 		for(int i = 0;i<bK.size();i++) {
 			if(!((KnotenTyp)bK.get(i).getType()).isBias()) {
-				System.out.println("newK");
 				kanten.add(new KanteTyp(kT.getId() , bK.get(i).getId()));
 			}
 		}
