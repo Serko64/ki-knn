@@ -22,9 +22,9 @@ public boolean generateRandomGewichte() {
 	for (KanteTyp kanteTyp : kanten) {
 		double rand = Math.random();
 		if(rand > 0.5) {
-			kanteTyp.setGewicht(-Math.random());
+			kanteTyp.setGewicht(-Math.random()*5);
 		} else {
-			kanteTyp.setGewicht(Math.random());
+			kanteTyp.setGewicht(Math.random()*5);
 		}
 	}
 	return true;
@@ -55,4 +55,25 @@ public ArrayList<KanteTyp> findConnectedBackKnotenId(UUID id) {
 public ArrayList<KanteTyp> findConnectedFrontKnotenId(UUID id) {
 	return kanten.stream().filter(n -> n.getKnotenIDF().equals(id)).collect(Collectors.toCollection(ArrayList::new));
 }
+@Override
+public String toString() {
+	ArrayList<String> resultKanten = new ArrayList<>();
+	UUID lastF = null;
+	int kantenCounterF = 0;
+	int kantenCounterB = 0;
+	for (int i = 0;i<kanten.size();i++) {
+		if(lastF != null && lastF.equals(kanten.get(i).getKnotenIDF())) {
+			resultKanten.add(kantenCounterF +". Knoten-Links , Gewicht: "+kanten.get(i).getGewicht()+ " , " + ++kantenCounterB+ ". Knoten-Rechts");
+		} else {
+			kantenCounterB = 1;
+			lastF = kanten.get(i).getKnotenIDF();
+			resultKanten.add(++kantenCounterF +". Knoten-Links , Gewicht: "+kanten.get(i).getGewicht()+ " , " + kantenCounterB + ". Knoten-Rechts");
+		}
+	}
+	for (String string : resultKanten) {
+		System.out.println(string);
+	}
+	return resultKanten.toString();
+}
+
 }

@@ -15,6 +15,7 @@ import hft.stuttgart.ki.parts.SchichtKomponents.KanteTyp;
 import hft.stuttgart.ki.parts.SchichtKomponents.KnotenTyp;
 import hft.stuttgart.ki.parts.SchichtKomponents.SchichtKomponent;
 import hft.stuttgart.ki.parts.top.EFC;
+import hft.stuttgart.ki.vis.showNN;
 
 public class Netz {
 private ArrayList<Object> netz;
@@ -22,22 +23,50 @@ private double alpha = 0.4;
 private Daten daten;
 
 
+public Daten getDaten() {
+	return daten;
+}
 public Netz() throws IOException {
 	super();
 	this.daten = new Daten();
 }
-public void doDurchgang() throws IOException {
+public ArrayList<Integer> doEpoche(showNN window) throws IOException, InterruptedException {
+	ArrayList<Integer> collectedData = new ArrayList<>();
+	ArrayList<Double> valData = new ArrayList<>();
+	ArrayList<Integer> collectedDataR = new ArrayList<>();
+	for(int i = 0; i<daten.getSAVEDDatenliste().size();i++) {
+		if(!selectRanData()) {
+			resetTemp();
+		}
 		doForwardCalculation();
+		AusgabeKnoten rk = ((AusgabeKnoten)((Schicht)netz.get(netz.size()-1)).getType().getKnoten().get(0).getType());
+		if(rk.getOxVal() >= 0.5 && rk.getYk() == 1) {
+			collectedData.add(1);
+			valData.add(rk.getOxVal());
+			collectedDataR.add((int) rk.getYk());
+		} else if(rk.getOxVal() < 0.5 && rk.getYk() == 0){
+			collectedData.add(1);
+			valData.add(rk.getOxVal());
+			collectedDataR.add((int) rk.getYk());
+		} else {
+			collectedData.add(0);
+			valData.add(rk.getOxVal());
+			collectedDataR.add((int) rk.getYk());
+		}
 		doBackwardCalculation();
 		doGewichteAktualisieren();
-		selectRanData();
+	}
+	window.getDrawer().setRight(collectedData);
+	window.getDrawer().setValSaver(valData);
+	window.getDrawer().setResultSaver(collectedDataR);
+	window.getDrawer().repaint();
+	return collectedData;
 }
 public void resetTemp() {
 	daten.resetTemp();
 }
 public boolean selectRanData() throws IOException {
 	int val = 0;
-	System.out.println(daten.getDatenliste().size());
 	if(daten.getDatenliste().size() == 0) {
 		return false;
 	}
@@ -54,7 +83,7 @@ public boolean selectRanData() throws IOException {
 	((KnotenTyp)knoten1.get(1).getType()).setOxVal(werte.x1());
 	((KnotenTyp)knoten1.get(2).getType()).setOxVal(werte.x2());
 	((KnotenTyp)knoten1.get(0).getType()).setOxVal(1);
-	((AusgabeKnoten)((Schicht)netz.get(4)).getType().getKnoten().get(0).getType()).setYk(werte.y());;
+	((AusgabeKnoten)((Schicht)netz.get(netz.size()-1)).getType().getKnoten().get(0).getType()).setYk(werte.y());;
 	return true;
 }
 public void createKnoten(int eingA, int[] hiddA , int ausgA) throws WrongUsedTypeclassException {
@@ -67,12 +96,9 @@ public void createKnoten(int eingA, int[] hiddA , int ausgA) throws WrongUsedTyp
 	}
 public void addKanten() {
 	ArrayList<Object> mitKantenNetz = new ArrayList<>();
-	System.out.println(netz.size());
 		for(int i = 0; i<netz.size()-1;i++) {
-			System.out.println("runned");
 			mitKantenNetz.add(new KantenSchicht(((Schicht) netz.get(i)).getId(), ((Schicht) netz.get(i+1)).getId(), ((Schicht) netz.get(i)).getType().getKnoten(), ((Schicht) netz.get(i+1)).getType().getKnoten() ));
 		}
-		System.out.println("d" + mitKantenNetz.size());
 	ArrayList<Object> temp = new ArrayList<>();
 	temp.addAll(netz);
 	netz.clear();
@@ -87,37 +113,31 @@ public void addKanten() {
 				counter2++;
 			}
 		}
-		System.out.println("tets " + netz.size());
 	}
 public void doForwardCalculation() {
-	System.err.println("OPEN");
 		for(int i = 2;i<netz.size();i = i+2) {
-			System.out.println("val "+ (i-1));
 			for (SchichtKomponent s: ((Schicht)netz.get(i)).getType().getKnoten()) {
 				if(((KnotenTyp)s.getType()).isBias()) {
-					System.out.println("SHCIHT" + i);
 					continue;
 				} else {
 				ArrayList<KanteTyp> zBK = ((KantenSchicht)netz.get(i-1)).findConnectedBackKnotenId(s.getId());
 				int[] ui = new int[]{i};
 				
 				((KnotenTyp) s.getType()).setIxVal(zBK.stream().mapToDouble(n -> {
-					System.out.println(n.getGewicht() * ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal() + " | " + n.getGewicht() + " - "+ ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal());
+					//System.out.println(n.getGewicht() * ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal() + " | " + n.getGewicht() + " - "+ ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal());
 					return n.getGewicht() * ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal();}).sum());
 				((KnotenTyp) s.getType()).setOxVal(new EFC().sig(((KnotenTyp) s.getType()).getIxVal()));
 				zBK.stream().forEach(n -> {
-					System.out.println(n.getGewicht());
+					//System.out.println(n.getGewicht());
 				});
-				System.out.println(((KnotenTyp) s.getType()).getIxVal() + " - " + ((KnotenTyp) s.getType()).getOxVal());
+				//System.out.println(((KnotenTyp) s.getType()).getIxVal() + " - " + ((KnotenTyp) s.getType()).getOxVal());
 				}
 			}
 		}
 	}
 public void doBackwardCalculation() {
-	System.out.println(":C");
 		double deltaJ = 0;
 		for(int i = netz.size()-1;i>2;i = i-2) {
-			System.out.println(netz.get(i).getClass());
 			if(i == netz.size()-1 && ((Schicht)netz.get(i)).getType().getClass().equals(Ausgabe.class)) {
 				int[] counter = new int[] {0};
 				((Schicht)netz.get(i)).getType().getKnoten().stream().mapToDouble(n -> new EFC().sigA(((AusgabeKnoten)n.getType()).getIxVal()) * (((AusgabeKnoten)n.getType()).getYk() - ((AusgabeKnoten)n.getType()).getOxVal())).forEach(m -> {
@@ -175,4 +195,8 @@ public ArrayList<Object> getNetz() {
 public void setAlpha(double alpha) {
 	this.alpha = alpha;
 }
+public double getAlpha() {
+	return alpha;
+}
+
 }

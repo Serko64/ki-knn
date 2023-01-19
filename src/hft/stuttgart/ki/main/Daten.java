@@ -38,6 +38,11 @@ public class Daten {
 	public ArrayList<Werte> getDatenliste() {
 		return tempDatenliste;
 	}
+	
+	public ArrayList<Werte> getSAVEDDatenliste() {
+		return datenliste;
+	}
+
 	public void resetTemp() {
 		tempDatenliste.addAll(datenliste);
 	}

@@ -51,7 +51,6 @@ public class Schicht implements SchichtBuilder{
 
 	public void generateKnoten() {
 		for(int i = 0; i<amountKnoten;i++) {
-			System.out.println("open");
 			if(type.getClass().equals(Eingabe.class)) {
 				type.getKnoten().add(new SchichtKomponent(new EingabeKnoten()));
 				if(i == 0) {
