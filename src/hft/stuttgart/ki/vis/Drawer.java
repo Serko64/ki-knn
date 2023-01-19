@@ -84,11 +84,6 @@ public class Drawer extends JComponent {
 					counter++;
 				}
 				if(netz.size()-1 == i) {
-//					System.out.println("hay " + valSaver);
-//					if(!valSaver.contains(((AusgabeKnoten)((Schicht)netz.get(netz.size()-1)).getType().getKnoten().get(0).getType()).getOxVal())) {
-//						valSaver.add(((AusgabeKnoten)((Schicht)netz.get(netz.size()-1)).getType().getKnoten().get(0).getType()).getOxVal());
-//						resultSaver.add((int) ((AusgabeKnoten)((Schicht)netz.get(netz.size()-1)).getType().getKnoten().get(0).getType()).getYk());
-//					}
 					for(int counter1 = 0; counter1<right.size();counter1++) {
 						if(right.get(counter1) == 1) {
 							g.setColor(Color.GREEN);
@@ -98,7 +93,7 @@ public class Drawer extends JComponent {
 							g.setColor(Color.BLACK);
 						} else {
 							g.setColor(Color.RED);
-							g.fillOval(oneKnoX+staKnoX*(i+1), oneKnoY+25*counter1, KnoH, KnoW);
+							g.fillOval(oneKnoX+staKnoX*(i+1), oneKnoY+75+25*counter1, KnoH, KnoW);
 							g.drawString(String.valueOf(resultSaver.get(counter1)), oneKnoX+50+staKnoX*(i+1), oneKnoY+100+25*counter1);
 							g.drawString(String.valueOf(valSaver.get(counter1)), oneKnoX+75+staKnoX*(i+1), oneKnoY+100+25*counter1);
 							g.setColor(Color.BLACK);

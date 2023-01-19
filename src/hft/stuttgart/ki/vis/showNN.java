@@ -45,16 +45,10 @@ public class showNN {
 		return drawer;
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public showNN(Netz netz) {
 		initialize(netz);
 	}
-	
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize(Netz netz) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1200, 1000);

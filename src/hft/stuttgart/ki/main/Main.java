@@ -57,9 +57,9 @@ public class Main {
 			if(i == 0) {
 				System.out.println("Gewichte der Eingabeschicht - " + ++hiddCounter+". Hiddenschicht");
 			} else if(i == netz.getNetz().size()-3) {
-				System.out.println("Gewichte der Hiddenschicht - Ausgabeschicht");
+				System.out.println("Gewichte der " + hiddCounter + ". Hiddenschicht - Ausgabeschicht");
 			} else if(i%2 == 0 && i != netz.getNetz().size()-1){
-				System.out.println("Gewichte der" + ++hiddCounter+  ". Hiddenschicht - " +  ++hiddCounter+". Hiddenschicht");
+				System.out.println("Gewichte der " +  hiddCounter+  ". Hiddenschicht - " +  ++hiddCounter+". Hiddenschicht");
 			}
 			if(i%2 != 0) {
 				netz.getNetz().get(i).toString();

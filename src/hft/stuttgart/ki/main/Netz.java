@@ -124,13 +124,8 @@ public void doForwardCalculation() {
 				int[] ui = new int[]{i};
 				
 				((KnotenTyp) s.getType()).setIxVal(zBK.stream().mapToDouble(n -> {
-					//System.out.println(n.getGewicht() * ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal() + " | " + n.getGewicht() + " - "+ ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal());
 					return n.getGewicht() * ((KnotenTyp)((Schicht)netz.get(ui[0]-2)).getType().findAllKnoten(n.getKnotenIDF()).get(0).getType()).getOxVal();}).sum());
 				((KnotenTyp) s.getType()).setOxVal(new EFC().sig(((KnotenTyp) s.getType()).getIxVal()));
-				zBK.stream().forEach(n -> {
-					//System.out.println(n.getGewicht());
-				});
-				//System.out.println(((KnotenTyp) s.getType()).getIxVal() + " - " + ((KnotenTyp) s.getType()).getOxVal());
 				}
 			}
 		}
