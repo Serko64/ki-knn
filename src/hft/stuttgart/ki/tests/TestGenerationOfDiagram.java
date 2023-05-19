@@ -1,17 +1,14 @@
 package hft.stuttgart.ki.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.function.Executable;
 
 import hft.stuttgart.ki.exceptions.WrongUsedTypeclassException;
 import hft.stuttgart.ki.main.Netz;
@@ -20,8 +17,6 @@ import hft.stuttgart.ki.parts.Schicht.Schicht;
 import hft.stuttgart.ki.parts.SchichtKomponents.KanteTyp;
 import hft.stuttgart.ki.parts.SchichtKomponents.KnotenTyp;
 import hft.stuttgart.ki.parts.SchichtKomponents.SchichtKomponent;
-import hft.stuttgart.ki.parts.SchichtKomponents.SchichtTyp;
-import hft.stuttgart.ki.vis.showNN;
 @TestInstance(Lifecycle.PER_CLASS)
 class TestGenerationOfDiagram {
 	private Netz netz;

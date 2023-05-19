@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 
 import hft.stuttgart.ki.main.Netz;
-import hft.stuttgart.ki.parts.Schicht.Ausgabe;
-import hft.stuttgart.ki.parts.Schicht.Hidden;
 import hft.stuttgart.ki.parts.Schicht.KantenSchicht;
 import hft.stuttgart.ki.parts.Schicht.Schicht;
 import hft.stuttgart.ki.parts.SchichtKomponents.AusgabeKnoten;
